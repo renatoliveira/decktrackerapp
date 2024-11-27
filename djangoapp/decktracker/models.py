@@ -23,9 +23,7 @@ class CardDeck(models.Model):
         return f'{self.card.name} in {self.deck.name}'
 
 class DeckModification(models.Model):
-    # date should be required
     date = models.DateTimeField(auto_now_add=True)
-    # deck too
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
 
     def __str__(self):
