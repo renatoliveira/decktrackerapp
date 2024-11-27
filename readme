@@ -1,1 +1,5 @@
-1. python3.11 -m venv . venv
+python3.11 -m venv . venv
+pip install Django
+mkdir djangoapp
+django-admin startproject mtgdtsite djangoapp
+python manage.py migrate
