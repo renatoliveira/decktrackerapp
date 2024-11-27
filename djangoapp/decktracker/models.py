@@ -21,3 +21,20 @@ class CardDeck(models.Model):
 
     def __str__(self):
         return f'{self.card.name} in {self.deck.name}'
+
+class DeckModification(models.Model):
+    # date should be required
+    date = models.DateTimeField(auto_now_add=True)
+    # deck too
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Modification of deck {self.deck.name} on {self.date}'
+
+class DeckModificationCard(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    deck_modification = models.ForeignKey(DeckModification, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.card.name} in {self.deck_modification.deck.name} on {self.deck_modification.date}'
