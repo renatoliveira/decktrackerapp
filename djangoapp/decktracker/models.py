@@ -10,7 +10,6 @@ class Card(models.Model):
 
 class Deck(models.Model):
     name = models.CharField(max_length=200)
-    cards = models.ManyToManyField(Card, through='DeckCard')
 
     def __str__(self):
         return self.name
