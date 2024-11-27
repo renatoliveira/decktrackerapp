@@ -1,0 +1,7 @@
+<p>This deck id: {{ deck.id }}</p>
+
+<p>Card count: {{ cards|length }} </p>
+
+{% for c in cards %}
+<p>{{ c.card.name }} - Scryfall ID: {{ c.card.sf_id }} </p>
+{% endfor %}

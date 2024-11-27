@@ -41,9 +41,11 @@ class Deck(models.Model):
         DeckModification.objects.create(deck=self, card=card, quantity=-quantity)
 
     def remove_cards(self, cards):
-
         for card, quantity in cards.items():
             self.remove_card(card, quantity)
+
+    def get_cards(self):
+        return {cd for cd in CardDeck.objects.filter(deck=self)}
 
 class CardDeck(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
