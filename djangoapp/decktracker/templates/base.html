@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="{% static 'decktracker/style.css' %}">
+    <!-- TODO: Check how title works -->
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="m-small">
+        <ul>
+            <li><strong>Acme Corp</strong></li>
+        </ul>
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Products</a></li>
+        </ul>
+    </nav>
+    <div id="content" class="m-small">{% block content %}{% endblock %}</div>
+    <div id="footer" class="m-small">
+        {% block footer %}
+        &copy; Copyright 2024 by Renato Oliveira
+        {% endblock %}
+    </div>
+</body>
+
+</html>

@@ -1,7 +1,15 @@
-<p>This deck id: {{ deck.id }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+
+<h1>This deck id: {{ deck.id }}</h1>
 
 <p>Card count: {{ cards|length }} </p>
 
 {% for c in cards %}
 <p>{{ c.card.name }} - Scryfall ID: {{ c.card.sf_id }} </p>
 {% endfor %}
+</div>
+
+{% endblock %}
