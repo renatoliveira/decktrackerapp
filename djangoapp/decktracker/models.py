@@ -62,16 +62,38 @@ class Deck(models.Model):
 
         for modification in modifications:
             date = modification.date.strftime("%Y-%m-%d sometime")
+            date = f"sometime on the {modification.date.day} {modification.date.month}"
+
+            month_name = {
+                1: "January",
+                2: "February",
+                3: "March",
+                4: "April",
+                5: "May",
+                6: "June",
+                7: "July",
+                8: "August",
+                9: "September",
+                10: "October",
+                11: "November",
+                12: "December"
+            }
+
+            day_suffix = {
+                1: "st",
+                2: "nd",
+                3: "rd"
+            }
 
             # if morning
             if modification.date.hour < 12:
-                date = modification.date.strftime("%Y-%m-%d morning")
+                date = f"on the morning of {month_name[modification.date.month]} {modification.date.day}{day_suffix[modification.date.day]}"
             # if afternoon
             elif modification.date.hour < 18:
-                date = modification.date.strftime("%Y-%m-%d afternoon")
+                date = f"on the afternoon of {month_name[modification.date.month]} {modification.date.day}{day_suffix[modification.date.day]}"
             # if evening
             else:
-                date = modification.date.strftime("%Y-%m-%d evening")
+                date = f"on the evening of {month_name[modification.date.month]} {modification.date.day}{day_suffix[modification.date.day]}"
 
             if date not in grouped_modifications:
                 grouped_modifications[date] = []
