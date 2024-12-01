@@ -3,12 +3,52 @@
 {% block content %}
 <div>
 
-<h1>This deck id: {{ deck.id }}</h1>
+<h1>{{ deck.name }}</h1>
 
-<p>Card count: {{ cards|length }} </p>
+<p>Row count: {{ cards | length }} </p>
+<p>Card count: {{ card_count }}</p>
 
-{% for c in cards %}
-<p>{{ c.card.name }} - Scryfall ID: {{ c.card.sf_id }} </p>
+<!-- deck table -->
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Card</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in cards %}
+        <tr sfid="{{ c.card.sf_id }}">
+            <td>{{ c.card.name }}</td>
+            <td>{{ c.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- 'modifications' is the key ina dict, iterate the dict -->
+{% for date, modification in modifications.items %}
+<h2>{{ date }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Card</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in modification %}
+        <tr>
+            <td>{{ m.card.name }}</td>
+            {% if m.quantity < 0 %}
+            <td>Removed {{ m.quantity }}</td>
+            {% else %}
+            <td>Added {{ m.quantity }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endfor %}
 </div>
 

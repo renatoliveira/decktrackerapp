@@ -47,6 +47,39 @@ class Deck(models.Model):
     def get_cards(self):
         return {cd for cd in CardDeck.objects.filter(deck=self)}
 
+    def get_deck_modifications(self):
+        # get results ordered by date
+        # return DeckModification.objects.filter(deck=self).order_by('date')
+
+        # group items by the second
+        modifications = DeckModification.objects.filter(deck=self).order_by('date')
+
+        # sort the modifications by date
+        modifications = sorted(modifications, key=lambda x: x.date)
+
+        # group the modifications by date
+        grouped_modifications = {}
+
+        for modification in modifications:
+            date = modification.date.strftime("%Y-%m-%d sometime")
+
+            # if morning
+            if modification.date.hour < 12:
+                date = modification.date.strftime("%Y-%m-%d morning")
+            # if afternoon
+            elif modification.date.hour < 18:
+                date = modification.date.strftime("%Y-%m-%d afternoon")
+            # if evening
+            else:
+                date = modification.date.strftime("%Y-%m-%d evening")
+
+            if date not in grouped_modifications:
+                grouped_modifications[date] = []
+
+            grouped_modifications[date].append(modification)
+
+        return grouped_modifications
+
 class CardDeck(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
@@ -55,6 +88,11 @@ class CardDeck(models.Model):
     def __str__(self):
         return f'{self.card.name} in {self.deck.name}'
 
+    # on save, update the modification log
+    def save(self, *args, **kwargs):
+        super(CardDeck, self).save(*args, **kwargs)
+        DeckModification.objects.create(deck=self.deck, card=self.card, quantity=self.quantity)
+
 class DeckModification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
@@ -62,4 +100,9 @@ class DeckModification(models.Model):
     quantity = models.IntegerField()
 
     def __str__(self):
-        return f'Modification of deck {self.deck.name} on {self.date}'
+        return f'Modification of deck \'{self.deck.name}\' on {self.date.strftime("%Y-%m-%d %H:%M:%S")}'
+
+    # add calculated field 'added' to show if the card was added or removed
+    @property
+    def added(self):
+        return self.quantity > 0
