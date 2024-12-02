@@ -15,6 +15,10 @@
 {% if success %}
 <div class="container">
     <h1>{{ success }}</h1>
+    {% if logout %}
+    <p>You have been logged out.</p>
+    {% else %}
     <p>You are now logged in.</p>
+    {% endif %}
 </div>
 {% endif %}

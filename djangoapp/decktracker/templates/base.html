@@ -15,12 +15,22 @@
 <body>
     <nav class="m-small">
         <ul>
-            <li><strong>My Deck Tracker</strong></li>
+            <li><strong>
+                <a href="/decktracker/">Home</a>
+            </strong></li>
         </ul>
+        {% if authenticated %}
         <ul>
             <li><a href="#">My Decks</a></li>
             <li><a href="#">My Cards</a></li>
+            <li><a href="/decktracker/user/logout">Logout</a></li>
         </ul>
+        {% else %}
+        <ul>
+            <li><a href="/decktracker/user/login">Login</a></li>
+            <li><a href="/decktracker/user/register">Register</a></li>
+        </ul>
+        {% endif %}
     </nav>
     <div id="content" class="m-small">{% block content %}{% endblock %}</div>
     <div id="footer" class="m-small">

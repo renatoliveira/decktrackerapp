@@ -18,7 +18,8 @@ def view_deck(request, deck_id):
         'deck': Deck.objects.get(id=deck_id),
         'cards': list(Deck.objects.get(id=deck_id).get_cards()),
         'modifications': Deck.objects.get(id=deck_id).get_deck_modifications(),
-        'card_count': sum([cd.quantity for cd in Deck.objects.get(id=deck_id).get_cards()])
+        'card_count': sum([cd.quantity for cd in Deck.objects.get(id=deck_id).get_cards()]),
+        'authenticated': request.user.is_authenticated
     }
 
     return render(request, "decks/deck.html", context)
@@ -70,3 +71,8 @@ def login_view(request):
             return render(request, "login/login_form.html", {'error': 'Invalid username or password'})
 
     return render(request, "login/login.html")
+
+def logout_view(request):
+    logout(request)
+
+    return render(request, "login/login.html", {'success': 'Logout Successful', 'logout': True})
