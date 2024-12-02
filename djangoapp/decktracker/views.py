@@ -54,13 +54,19 @@ def login_view(request):
         user = User.objects.filter(username=username)
 
         if user.count() == 0:
-            render(request, "registration/login.html", {'error': 'Invalid username or password'})
+            return render(request, "login/login_form.html", {'error': 'Invalid username or password'})
 
         user = user[0]
 
         if user.check_password(password):
-            render(request, "registration/login.html", {'error': 'Invalid username or password'})
-        else:
-            render(request, "registration/login.html", {'error': 'Invalid username or password'})
+            user = authenticate(username=username, password=password)
 
-    return render(request, "registration/login.html")
+            if user is not None:
+                login(request, user)
+                return render(request, "login/login_form.html", {'success': 'Login Successful'})
+            else:
+                return render(request, "login/login_form.html", {'error': 'Invalid username or password'})
+        else:
+            return render(request, "login/login_form.html", {'error': 'Invalid username or password'})
+
+    return render(request, "login/login.html")

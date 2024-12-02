@@ -1,0 +1,20 @@
+{% if not success %}
+<form hx-post="/decktracker/user/login" hx-swap="outerHTML">
+    {% if error %}
+    <div class="container">
+        <h1>{{ error }}</h1>
+        <p>There was an error logging in. Please try again.</p>
+    </div>
+    {% endif %}
+    <input type="text" placeholder="Username" name="username" required>
+    <input type="password" placeholder="Password" name="password" required>
+    <button type="submit">Login</button>
+</form>
+{% endif %}
+
+{% if success %}
+<div class="container">
+    <h1>{{ success }}</h1>
+    <p>You are now logged in.</p>
+</div>
+{% endif %}

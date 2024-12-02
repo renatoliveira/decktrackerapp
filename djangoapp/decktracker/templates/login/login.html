@@ -1,0 +1,19 @@
+<!-- a simple registration page using PicoCSS -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block extra_head %}
+<script src="https://unpkg.com/htmx.org@2.0.3"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    {% include "login/login_form.html" %}
+</div>
+
+{% endblock %}
