@@ -1,0 +1,18 @@
+{% if not success %}
+<form hx-post="/decktracker/user/register" hx-swap="outerHTML">
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+    <input type="text" placeholder="Username" name="username" required>
+    <input type="password" placeholder="Password" name="password" required>
+    <input type="email" placeholder="you@email.com" name="email" required>
+    <button type="submit">Register</button>
+</form>
+{% endif %}
+
+{% if success %}
+<div class="container">
+    <h1>{{ success }}</h1>
+    <p>Thank you for registering. You can now <a href="/decktracker/login">log in</a>.</p>
+</div>
+{% endif %}
