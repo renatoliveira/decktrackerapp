@@ -52,6 +52,30 @@ def create_a_deck(request):
 
     return render(request, "decks/new_deck.html")
 
+def remove_a_deck(request, deck_id):
+    if not request.user.is_authenticated:
+        return render(request, "login/login.html", {'error': 'You must be logged in to remove a deck'})
+
+    if request.method == 'GET':
+        if not deck_id:
+            return render(request, "decks/my_decks.html", {'error': 'Deck ID is required'})
+
+        deck = Deck.objects.filter(id=deck_id)
+
+        if deck.count() == 0:
+            return render(request, "decks/my_decks.html", {'error': 'Deck not found'})
+
+        deck = list(deck)[0]
+
+        if deck.owner != request.user:
+            return render(request, "decks/my_decks.html", {'error': 'You do not own this deck'})
+
+        deck.delete()
+
+        return redirect('view_my_decks')
+
+    return render(request, "decks/my_decks.html")
+
 def register_view(request):
     if request.method == 'POST':
 

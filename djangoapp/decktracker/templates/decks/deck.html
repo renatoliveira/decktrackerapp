@@ -8,55 +8,59 @@
 {% block title %}{{ deck.name }}{% endblock %}
 
 {% block content %}
-<div>
+<div class="container">
 
-<h1>{{ deck.name }}</h1>
+    <h1>{{ deck.name }}</h1>
 
-<p>Unique rows: {{ cards | length }} </p>
-<p>Card count: {{ card_count }}</p>
+    <p>Unique rows: {{ cards | length }} </p>
+    <p>Card count: {{ card_count }}</p>
 
-<!-- deck table -->
-<table id="deck-table">
-    <thead>
-        <tr>
-            <th scope="col">Card</th>
-            <th scope="col">Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for c in cards %}
-        <tr sfid="{{ c.card.sf_id }}">
-            <td class="card-name-cell">{{ c.card.name }}</td>
-            <td>{{ c.quantity }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div>
+        <a role="button" href="/decktracker/decks/{{ deck.id }}/delete">Delete</a>
+    </div>
 
-<!-- 'modifications' is the key ina dict, iterate the dict -->
-{% for date, modification in modifications.items %}
-<h2>{{ date }}</h2>
-<table id="deck-history">
-    <thead>
-        <tr>
-            <th scope="col">Card</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for m in modification %}
-        <tr sfid="{{ m.card.sf_id }}">
-            <td>{{ m.card.name }}</td>
-            {% if m.quantity < 0 %}
-            <td>Removed {{ m.quantity }}</td>
-            {% else %}
-            <td>Added {{ m.quantity }}</td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endfor %}
+    <!-- deck table -->
+    <table id="deck-table">
+        <thead>
+            <tr>
+                <th scope="col">Card</th>
+                <th scope="col">Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in cards %}
+            <tr sfid="{{ c.card.sf_id }}">
+                <td class="card-name-cell">{{ c.card.name }}</td>
+                <td>{{ c.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 'modifications' is the key ina dict, iterate the dict -->
+    {% for date, modification in modifications.items %}
+    <h2>{{ date }}</h2>
+    <table id="deck-history">
+        <thead>
+            <tr>
+                <th scope="col">Card</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in modification %}
+            <tr sfid="{{ m.card.sf_id }}">
+                <td>{{ m.card.name }}</td>
+                {% if m.quantity < 0 %}
+                <td>Removed {{ m.quantity }}</td>
+                {% else %}
+                <td>Added {{ m.quantity }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
 </div>
 
 {% endblock %}
