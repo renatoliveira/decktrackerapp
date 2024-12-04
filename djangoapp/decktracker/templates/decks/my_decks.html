@@ -5,25 +5,33 @@
 
 {% block content %}
 
-<h1>My Decks</h1>
+<div class="container">
 
-<table id="deck-table">
-    <thead>
-        <tr>
-            <th scope="col">Deck Name</th>
-            <th scope="col">Card Count</th>
-            <th scope="col">Unique Cards</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for deck in decks %}
-        <tr>
-            <td><a href="/decktracker/decks/{{ deck.id }}">{{ deck.name }}</a></td>
-            <td>{{ deck.card_count }}</td>
-            <td>{{ deck.cards | length }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <h1>My Decks</h1>
 
+    {% if success %}
+    <div class="success">{{ success }}</div>
+    {% endif %}
+
+    <table id="deck-table">
+        <thead>
+            <tr>
+                <th scope="col">Deck Name</th>
+                <th scope="col">Card Count</th>
+                <th scope="col">Unique Cards</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deck in decks %}
+            <tr>
+                <td><a href="/decktracker/decks/{{ deck.id }}">{{ deck.name }}</a></td>
+                <td>{{ deck.card_count }}</td>
+                <td>{{ deck.cards | length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a role="button" href="/decktracker/decks/new">New Deck</a>
+</div>
 {% endblock %}

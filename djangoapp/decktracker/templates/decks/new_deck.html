@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}New deck{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h1>New Deck</h1>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form hx-post="/decktracker/decks/new" hx-swap="outerHTML">
+        {% csrf_token %}
+        <label for="deck-name">Deck Name</label>
+        <input type="text" id="deck-name" name="deck-name" required>
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+{% endblock %}

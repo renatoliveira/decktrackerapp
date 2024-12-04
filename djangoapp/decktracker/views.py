@@ -37,6 +37,21 @@ def view_deck(request, deck_id):
 
     return render(request, "decks/deck.html", context)
 
+def create_a_deck(request):
+    if not request.user.is_authenticated:
+        return render(request, "login/login.html", {'error': 'You must be logged in to create a deck'})
+
+    if request.method == 'POST':
+        if not request.POST['deck-name']:
+            return render(request, "decks/new_deck.html", {'error': 'Deck name is required'})
+
+        deck = Deck.objects.create(name=request.POST['deck-name'], owner=request.user)
+        deck.save()
+
+        return redirect('view_my_decks')
+
+    return render(request, "decks/new_deck.html")
+
 def register_view(request):
     if request.method == 'POST':
 

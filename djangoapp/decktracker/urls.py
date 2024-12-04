@@ -8,6 +8,7 @@ urlpatterns = [
     # decks
     path('decks/<int:deck_id>/', views.view_deck, name='view_deck'),
     path('decks/', views.view_my_decks, name='view_my_decks'),
+    path('decks/new', views.create_a_deck, name='create_a_deck'),
 
     # registration
     path('register/', views.register_view, name='register'),
