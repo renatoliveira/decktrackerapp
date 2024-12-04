@@ -57,9 +57,6 @@ class Deck(models.Model):
         return {cd for cd in CardDeck.objects.filter(deck=self)}
 
     def get_deck_modifications(self):
-        # get results ordered by date
-        # return DeckModification.objects.filter(deck=self).order_by('date')
-
         # group items by the second
         modifications = DeckModification.objects.filter(deck=self).order_by('date')
 
