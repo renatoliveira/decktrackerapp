@@ -1,12 +1,25 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Deck
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello, world. You're at the decktracker index.")
+    return redirect('view_my_decks')
+
+def view_my_decks(request):
+    if not request.user.is_authenticated:
+        return render(request, "login/login.html", {'error': 'You must be logged in to view your decks'})
+
+    decks = Deck.objects.filter(owner=request.user)
+
+    context = {
+        'decks': decks,
+        'authenticated': request.user.is_authenticated
+    }
+
+    return render(request, "decks/my_decks.html", context)
 
 def view_deck(request, deck_id):
     deck_count = Deck.objects.filter(id=deck_id).count()

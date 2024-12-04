@@ -10,6 +10,15 @@ class Card(models.Model):
 
 class Deck(models.Model):
     name = models.CharField(max_length=200)
+    owner = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+
+    @property
+    def card_count(self):
+        return sum([cd.quantity for cd in self.get_cards()])
+
+    @property
+    def cards(self):
+        return self.get_cards()
 
     def __str__(self):
         return self.name
